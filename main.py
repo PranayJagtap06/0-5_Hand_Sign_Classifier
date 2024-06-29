@@ -11,7 +11,6 @@ about = "Imagine a world where hand signs are read in real-time without problems
     " Just upload an image of your hand sign, and our model will predict the corresponding numerical class in a second with accuracy."\
     " The results are not most accurate all the time, there is still scope of improvement by training the model on larger dataset."\
     " The present model was trained on '[DL.AI] Hand Signs 05 Dataset' which consists of 1080 trainning samples."
-classifier_str = ""
 
 st.set_page_config(page_title='0-5 Hand Sign Classifier', page_icon='🖐️', menu_items={'About': f"{about}"})
 st.title(body="HandSignClassifier: ML-Powered Hand Sign Recognition 🤖🖐️✌️")
