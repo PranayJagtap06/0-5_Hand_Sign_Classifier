@@ -2,6 +2,7 @@ import tensorflow as tf
 import streamlit as st
 import mlflow
 import base64
+import os
 from PIL import Image
 
 about = "Imagine a world where hand signs are read in real-time without problems."\
@@ -25,8 +26,9 @@ if 'model' not in st.session_state:
 @st.cache_resource
 def load_model():
     with st.spinner("Loading model... This may take a few moments."):
-        remote_server_uri = "https://dagshub.com/pranay.makxenia/ML_Projects.mlflow"
-        mlflow.set_tracking_uri(remote_server_uri)
+        # remote_server_uri = "https://dagshub.com/pranay.makxenia/ML_Projects.mlflow"
+
+        mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI"))
         model_name = "0-5_hand_sign_classifier_1"
         model_uri = f"models:/{model_name}@champion"
         model = mlflow.tensorflow.load_model(model_uri=model_uri)
@@ -71,7 +73,7 @@ def classify_img():
 
     st.markdown("""---""")
     st.header("Classification Result ✨✨✨")
-    st.subheader(f"Classified as hand sign: {pred_class.numpy()}")
+    st.markdown(f"Classified as hand sign: {pred_class.numpy()}")
 
 if classify_btn and st.session_state.preprocessed_img is not None:
     classify_img()
