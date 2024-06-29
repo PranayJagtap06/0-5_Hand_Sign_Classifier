@@ -25,7 +25,6 @@ if 'model' not in st.session_state:
 @st.cache_resource
 def load_model():
     with st.spinner("Loading model... This may take a few moments."):
-        # remote_server_uri = "https://dagshub.com/pranay.makxenia/ML_Projects.mlflow"
 
         mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI"))
         model_name = "0-5_hand_sign_classifier_1"
