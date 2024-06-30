@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/PranayJagtap06/IndianFutureReserves/blob/main/assets/Designer.png" width="400" alt="IndianFutureReserves">
+  <img src="https://github.com/PranayJagtap06/o-5_Hand_Sign_Classifier/blob/main/assets/handsign-unsplash.jpg" width="400" alt="HandSign">
 </p>
 
 # About the Project 💻
