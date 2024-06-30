@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <img src="https://github.com/PranayJagtap06/o-5_Hand_Sign_Classifier/blob/main/assets/handsign-unsplash.jpg" width="400" alt="HandSign">
+  <img src="https://github.com/PranayJagtap06/0-5_Hand_Sign_Classifier/blob/2988847c3d4cd925c969ee60aec318bd6238f1d5/assets/handsign-unsplash.jpg" width="400" alt="HandSign">
 </p>
 
 # About the Project 💻
