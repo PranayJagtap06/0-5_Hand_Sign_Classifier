@@ -4,6 +4,12 @@ import mlflow
 import base64
 import os
 from PIL import Image
+import logging
+from datetime import datetime
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 about = "Imagine a world where hand signs are read in real-time without problems."\
     " This is where HandSignClassifier comes in, using the best weapons of machine learning and artificial intelligence to make it happen."\
@@ -24,20 +30,26 @@ if 'model' not in st.session_state:
 
 @st.cache_resource
 def load_model():
-    with st.spinner("Loading model... This may take a few moments."):
+    try:
+        with st.spinner("Loading model... This may take a few moments."):
 
-        mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI"))
-        model_name = "0-5_hand_sign_classifier_1"
-        model_uri = f"models:/{model_name}@champion"
-        model = mlflow.tensorflow.load_model(model_uri=model_uri)
-        # time.sleep(2)  # Simulate loading time, remove in production
-    st.success("Model loaded successfully!")
-    return model
+            mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI"))
+            model_name = "0-5_hand_sign_classifier_1"
+            model_uri = f"models:/{model_name}@champion"
+            model = mlflow.tensorflow.load_model(model_uri=model_uri)
+            # time.sleep(2)  # Simulate loading time, remove in production
+        st.success("Model loaded successfully!")
+        return model
+    except Exception as e:
+        logger.error(f"Error loading model: {str(e)}")
+        st.error("Failed to load model. Please try again later.")
+        return None
 
-# Load model at startup
+# Load model
 if st.session_state.model is None:
     st.session_state.model = load_model()
 
+@st.cache_data
 def preprocess_image(uploaded_img):
     img_shape = 224
     img_bytes = uploaded_img.getvalue()
@@ -45,7 +57,6 @@ def preprocess_image(uploaded_img):
     img = tf.image.resize(img, size=[img_shape, img_shape])
     img = tf.expand_dims(img, axis=0)
     return img
-
 
 def get_image_base64(image_path):
     with open(image_path, "rb") as img_file:
@@ -59,19 +70,33 @@ uploaded_img = file_upload.file_uploader("Choose a png or jpg file", type=["png"
 classify_btn = upload_cols[0].button(":red[Classify]")
 
 if uploaded_img is not None:
-    img = Image.open(uploaded_img)
-    upload_cols[1].image(img)
-    st.session_state.preprocessed_img = preprocess_image(uploaded_img)
+    try:
+        img = Image.open(uploaded_img)
+        upload_cols[1].image(img)
+        st.session_state.preprocessed_img = preprocess_image(uploaded_img)
+    except Exception as e:
+        logger.error(f"Error processing uploaded image: {str(e)}")
+        st.error("Failed to process the uploaded image. Please try again with a different image.")
+
 
 def classify_img():
+    start_time = datetime.now()
     class_names = tf.constant([0,1,2,3,4,5])
-    with st.spinner("Classifying image..."):
-        probs = st.session_state.model.predict(st.session_state.preprocessed_img)
-        pred_class = class_names[tf.argmax(probs, axis=1).numpy()[0]]
+    try:
+        with st.spinner("Classifying image..."):
+            probs = st.session_state.model.predict(st.session_state.preprocessed_img)
+            pred_class = class_names[tf.argmax(probs, axis=1).numpy()[0]]
 
-    st.markdown("""---""")
-    st.header("Classification Result ✨✨✨")
-    st.markdown(f"Classified as hand sign: {pred_class.numpy()}")
+        st.markdown("""---""")
+        st.header("Classification Result ✨✨✨")
+        st.markdown(f"Classified as hand sign: {pred_class.numpy()}")
+    
+        end_time = datetime.now()
+        duration = (end_time - start_time).total_seconds()
+        logger.info(f"Classification completed in {duration:.2f} seconds")
+    except Exception as e:
+        logger.error(f"Error during classification: {str(e)}")
+        st.error("An error occurred during classification. Please try again.")
 
 if classify_btn and st.session_state.preprocessed_img is not None:
     classify_img()
