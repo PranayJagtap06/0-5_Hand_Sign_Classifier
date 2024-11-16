@@ -12,7 +12,7 @@
 
 ## About the Project 💻
 
-Meet the **HandSignClassifier** app, a web application that identifies hand sign photos as numbers from 0 to 5. This app created with Streamlit, uses a machine learning model. It was trained through fine tuning transfer learning on the EfficientNetB0 model.
+Meet the **HandSignClassifier** app, a web application that identifies hand sign photos as numbers from 0 to 5. This app created with Streamlit, uses a machine learning model. It was trained through fine tuning transfer learning on the EfficientNetB0 model. If you wish to train your own model, then go to my [ML_Projects](https://github.com/PranayJagtap06/ML_Projects/tree/main/Hand_Signs_Classification) repo and get your hands dirty!
 
 [*Visit Streamlit App*](https://0-5handsignclassifier.streamlit.app)
 
