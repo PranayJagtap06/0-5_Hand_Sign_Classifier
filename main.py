@@ -131,7 +131,6 @@ html_code = f"""
 
 # Display the circular image
 st.markdown(html_code, unsafe_allow_html=True)
-# st.image("assets/pranay_sq.jpg", width=125)
 st.markdown("Electrical Engineer | Machine learning Enthusiast "\
             "<br>Nagpur, Maharashtra, India", unsafe_allow_html=True)
 
