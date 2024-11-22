@@ -101,6 +101,7 @@ def classify_img():
 if classify_btn and st.session_state.preprocessed_img is not None:
     classify_img()
 
+# Personal Website
 st.markdown("""---""")
 st.markdown("Created by [Pranay Jagtap](https://pranayjagtap.netlify.app)")
 
